@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include <vector>
 #define Loop(i,a,b) for (int i = a ; i < b ; i++)
 #define MAX_THREADS 8
 using namespace std;
@@ -45,12 +46,40 @@ int** Matrix::T(){
     return MT;
 }
 
+void MultiplyPartial(Matrix* A, Matrix* B, Matrix* C, int n2, int n3, int startRow, int endRow){
+    
+    Loop (i, startRow, endRow){
+        Loop(j, 0, n3){
+            C->M[i][j] = 0;
+            Loop(k, 0, n2){
+                C->M[i][j] += A->M[i][k]*B->M[k][j];
+            }
+        }
+    }
+}
+
 Matrix* Matrix::multiplyMatrix(Matrix* N) {
     if (this->m != N->n) {
         return NULL;
     }
     Matrix *c = new Matrix(this->n,N->m);
 
+    int numThreads = min(MAX_THREADS, this->n);
+    vector<thread> threads(numThreads);
+    int rowsPerThread = this->n/numThreads;
+    int remainingRows = this->n%numThreads;
+    int n2 = this->m;
+    int n3 = N->m;
+
+    int startRow = 0;
+    for (int i=0; i<numThreads; i++){
+        int endRow = startRow + rowsPerThread + (i<remainingRows);
+        threads[i] = thread(MultiplyPartial, this, N, c, n2, n3, startRow, endRow);
+    }
+
+    for (int i = 0; i < numThreads; i++) {
+        threads[i].join();
+    }
     /*
     
     BEGIN STUDENT CODE
@@ -64,8 +93,8 @@ Matrix* Matrix::multiplyMatrix(Matrix* N) {
     C[i][j] = sum over k = 0 to n2-1 {A[i][k]*B[k][j]}
 
     */
-    cout<<"STUDENT CODE NOT IMPLEMENTED!\n";
-    exit(1);
+    //cout<<"STUDENT CODE NOT IMPLEMENTED!\n";
+    //exit(1);
     return c;
 }
 

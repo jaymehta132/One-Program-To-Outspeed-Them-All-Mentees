@@ -9,11 +9,12 @@
 #include <condition_variable>
 
 class Matrix {
-    private:
+    //private:
+    public:
         int** M;
         int n, m;
 
-    public:
+    //public:
         Matrix(int a, int b);
         ~Matrix();
         void initialiseMatrix();
