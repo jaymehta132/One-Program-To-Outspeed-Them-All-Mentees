@@ -49,8 +49,25 @@ int main () {
         dotProduct = 0;
         auto start2 = chrono::high_resolution_clock::now();
         //STUDENT CODE BEGINS HERE
-        cout<<"STUDENT CODE NOT IMPLEMENTED!\n";
-        exit(-1);
+        __m256 v1,v2,v3;
+        v3 = _mm256_setzero_ps();
+        float vec3[n];
+        for (int i=0; i<n-n%8; i+=8){
+            v1 = _mm256_loadu_ps(vec1+i); // load vec1[i],vec1[i+1]..vec1[i+7] into 256 bit register
+            v2 = _mm256_loadu_ps(vec2+i);
+            v3 = _mm256_add_ps(v3, _mm256_mul_ps(v1, v2));
+        }
+        __m128 reg = _mm_hadd_ps(_mm256_extractf128_ps(v3,0), _mm256_extractf128_ps(v3,1));
+        reg = _mm_hadd_ps(reg, reg);
+        reg = _mm_hadd_ps(reg, reg);
+        //reg = _mm_hadd_ps(reg, reg);
+        dotProduct = _mm_cvtss_f32(reg);
+
+        for (int i=n-n%8; i<n; i++){
+            dotProduct += vec1[i]*vec2[i];
+        }
+        //cout<<"STUDENT CODE NOT IMPLEMENTED!\n";
+        //exit(-1);
         //END OF STUDENT CODE
         auto end2 = chrono::high_resolution_clock::now();
         auto elapsed2 = chrono::duration_cast<chrono::duration<double>>(end2 - start2);

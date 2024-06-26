@@ -106,8 +106,15 @@ for (int t=0; t<2; t++) {
     //loop reorder
     start = chrono::high_resolution_clock::now();
     //STUDENT CODE BEGINS HERE
-    cerr<<"STUDENT CODE NOT IMPLEMENTED!\n";
-    exit(1);
+    for (int i=0; i<width; i++){
+        for (int k=0; k<width; k++){
+            for (int j=0; j<width; j++){
+                product[i][j]+= contMatrix[i*width+k]*sparseMatrix[k][j];
+            }
+        }
+    }
+    //cerr<<"STUDENT CODE NOT IMPLEMENTED!\n";
+    //exit(1);
     //STUDENT CODE ENDS
     end = chrono::high_resolution_clock::now();
     elapsed = chrono::duration_cast<chrono::duration<double>>(end - start);

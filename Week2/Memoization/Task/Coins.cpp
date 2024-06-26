@@ -62,8 +62,20 @@ ll solution_M(ll* coins, int n, ll sum){
     Count_M++; // Do not remove this line
     ll N = 0;
     // STUDENT CODE BEGINS HERE
-    cout<<"STUDENT CODE NOT IMPLEMENTED\n";
-    exit(1);
+    for (ll i=0; i<n; i++){
+        dp[i] = 0;
+    }
+    dp[0] = 1;
+    for (ll i=1; i<=sum; i++){
+        for (ll j=0; j<n; j++){
+            if (coins[j]<=i){
+                dp[i] = dp[i] + dp[i-coins[j]];
+            }
+        }
+    }
+    N = dp[sum];
+    //cout<<"STUDENT CODE NOT IMPLEMENTED\n";
+    //exit(1);
     return N;
 }
 int main(int argc, char* argv[]){

@@ -174,6 +174,12 @@ MAKE A VECTORIZED IMPLEMENTATION OF ABOVE CODE
 */
 
 //student code begin
-cout<<"Task not completed!\n";
+int32_t first = 0x007F00CB;
+int32_t second = 0x009B00C9;
+int32_t answer = first+second;
+int16_t answer_first = answer ^ (0xFFFF0000);
+int16_t answer_second = answer>>16;
+cout<<answer_second<<" "<<answer_first<<endl;
+//cout<<"Task not completed!\n";
 //student code end
 }

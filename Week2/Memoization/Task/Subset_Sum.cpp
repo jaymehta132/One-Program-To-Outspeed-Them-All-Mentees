@@ -30,10 +30,19 @@ ll solution(ll* A, ll n, ll index){
     Count++; // Do not remove this line
 
     //STUDENT CODE BEGINS HERE
-    cout<<"STUDENT CODE NOT IMPLEMENTED\n";
-    exit(1);
+    ll dp[n];
+    for (ll i=0; i<=n; i++){
+      dp[i] = 0;
+    }
+    dp[0] = max(A[0], 0LL);
+    dp[1] = max(dp[0], A[1]);
+    for (ll i=2; i<=index; i++){
+        dp[i] = max(dp[i-2]+A[i], dp[i-1]);
+    }
+    //cout<<"STUDENT CODE NOT IMPLEMENTED\n";
+    //exit(1);
 
-    return 0; // Placeholder line
+    return dp[index]; // Placeholder line
 }
 int main(){
     ll n;
