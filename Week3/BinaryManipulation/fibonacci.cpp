@@ -17,6 +17,22 @@ ll naive (ll n) {
     return dp[n];
 }
 
+vector<vector<ll>> matrix_mul(vector<vector<ll>>& m1, vector<vector<ll>>&m2){
+    ll row1 = m1.size();
+    ll col1 = m1[0].size();
+    ll row2 = m2.size();
+    ll col2 = m2[0].size();
+    vector<vector<ll>> answer(row1, vector<ll>(col2,0));
+    for (ll i=0; i<row1; i++){
+        for (ll k=0; k<row2; k++){
+            for (ll j=0; j<col2; j++){
+                answer[i][j] += m1[i][k]*m2[k][j];
+            }
+        }
+    }
+    return answer;
+}
+
 ll optim(ll n){
 /*
 
@@ -30,9 +46,21 @@ This can be computed in O(logn) time
 We expect your code to be faster (and completely inaccurate, as even naive method is inaccurate) for n >= 1000
 
 */
+    vector<vector<ll>> arr = {{1,1},{1,0}};
+    ll i=1;
+    vector<vector<ll>> ans = {{1},{0}};
+    ll b=n-1;
+    while (b>=i){
+        if (b&i){
+            ans = matrix_mul(ans, arr);
+        }
+        arr = matrix_mul(arr, arr);
+        i = i<<1;
+    }
+    return ans[0][0];
 
-cout<<"Student code not implemented\n";
-exit(1);
+//cout<<"Student code not implemented\n";
+//exit(1);
 
 }
 

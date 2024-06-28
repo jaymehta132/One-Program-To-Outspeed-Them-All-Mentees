@@ -15,9 +15,49 @@ EXPECTED TIME COMPLEXITY : O(n*log(q)) where q = max(arr)
 
 */
 
+int getMax(int* arr, int size){
+    int max = arr[0];
+    for (int i=0; i<size; i++){
+        if (arr[i]>max){
+            max = arr[i];
+        }
+    }
+    return max;
+}
+
+void countSort(int* arr, int size, int exp){
+    int output[size];
+    int count[2] = {0, 0};
+    for (int i=0; i<size; i++){
+        count[(arr[i]/exp)%2] += 1;
+    }
+    int i=0;
+    int j=count[0];
+    for (int k=0; k<size; k++){
+        if ((arr[k]/exp)%2==0){
+            output[i] = arr[k];
+            i++;
+        }
+        else{
+            output[j] = arr[k];
+            j++;
+        }
+    }
+    for (int k=0; k<size; k++){
+        arr[k] = output[k];
+    }
+    return;
+}
+
 void radixSort (int *arr, int size) {
-    cout<<"STUDENT CODE NOT IMPLEMENTED!\n";
-    exit(1);
+    
+    int max = getMax(arr, size);
+    for (int exp=1; max/exp > 0; exp*=2){
+        countSort(arr, size, exp);
+    }
+    
+    //cout<<"STUDENT CODE NOT IMPLEMENTED!\n";
+    //exit(1);
 }
 
 int main () {
